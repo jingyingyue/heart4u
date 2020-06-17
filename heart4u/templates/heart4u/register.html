@@ -1,0 +1,61 @@
+{% extends "heart4u/base.html" %}
+{% load static %}
+
+{% block title %}Register | Heart4U{% endblock %}
+
+{% block content %}
+	<div class="register-container">
+		<div id="register-card" class="card">
+			<div class="card-header">
+				<img src="{% static 'heart4u/imgs/brand.png' %}"><h1>Heart4U</h1>
+			</div>
+			<div class="card-body">
+				{% if messages %}
+					{% for message in messages %}
+						<div class="text-center">
+							<div class="alert {{ message.tags }}" role="alert">{{ message }}</div>
+						</div>
+					{% endfor %}
+				{% endif %}
+				
+			    <form action="{% url 'register' %}" method="POST">
+			    	{% csrf_token %}
+					<div class="form-row mb-3">
+						<div class="col">
+							<label for="first_name">First Name</label>
+							<input class="form-control" name="first_name" type="text" required>
+						</div>
+						<div class="col">
+							<label for="last_name">Last Name</label>
+							<input class="form-control" name="last_name" type="text" required>
+					    </div>
+					</div>
+			        <div class="form-group">
+			        	<label for="email">Email</label>
+			            <input class="form-control" name="email" type="email" required>
+			        </div>
+			        <div class="form-group">
+			        	<label for="username">Username</label>
+			            <input class="form-control" name="username" type="text" required>
+			        </div>
+			        <div class="form-row mb-3">
+			        	<div class="col">
+				        	<label for="password">Password</label>
+				            <input class="form-control" name="password" type="password" required>
+				        </div>
+				        <div class="col">
+				        	<label for="confirm_password">Confirm Password</label>
+				            <input class="form-control" name="confirm_password" type="password" required>
+				        </div>
+			        </div>
+					<div class="text-center">
+						<button class="btn btn-outline-dark" type="submit">Create account</button>
+					</div>
+				</form>
+			</div>
+			<div class="text-center">
+				<p>Have an account? <a href="{% url 'login' %}" class="card-link">Login</a></p>
+			</div>
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "heart4u/base.html" %}
+{% load static %}
+
+{% block title %}Search Results | Heart4U{% endblock %}
+
+{% block body %}
+	<div class="container my-4">
+		<!-- users -->
+		<div class="search-users users-list text-center">
+			<h1>Users</h1>
+			{% if users %}
+				{% for user in users %}
+					<div class="row ml-3 align-items-center">
+						<div class="user-pic mr-3">
+							<div class="user-pic-square">
+								<img src="{{ user.profile.profile_pic.url }}">
+							</div>
+						</div>
+						<a href="{% url 'profile' user.username %}">{{ user.username }}</a>
+					</div>
+				{% endfor %}
+			{% else %}
+				<small>No users found</small>
+			{% endif %}
+		</div>
+
+		<hr style="margin-bottom: 5px;">
+
+		<!-- posts  -->
+		<div class="search-posts">
+			<h1 class="text-center">Posts</h1>
+			{% if posts %}
+				<div class="row justify-content-center">
+					<ul class="d-flex flex-wrap">
+						{% for post in posts %}
+							<li>
+		                        <a href="{% url 'post' post.user.username post.id %}" title="View Post">
+		                            <img class="user-post" src="{{ post.pic.url }}" style="width:250px;">
+		                        </a>
+							</li>
+						{% endfor %}
+					</ul>
+				</div>
+			{% else %}
+				<div class="text-center">
+					<small>No posts found</small>
+				</div>
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}
+
+{% block script %}
+	<script src="{% static 'heart4u/search.js' %}"></script>
+{% endblock %}

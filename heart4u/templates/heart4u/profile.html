@@ -1,0 +1,197 @@
+{% extends "heart4u/base.html" %}
+{% load static %}
+
+{% block title %}{{ user.username }}'s Profile | Heart4U{% endblock %}
+
+{% block body %}
+	<div class="container my-4">
+		<!-- user details  -->
+		<div id="user-details" class="row justify-content-center align-items-center">
+			<!-- profile pic -->
+			<div id="profile-pic" class="col-lg-2 col-md-3 col-sm-4 my-3">
+				<div class="profile-pic-square">
+					<img src="{{ user.profile.profile_pic.url }}">
+				</div>
+			</div>
+
+			<div id="user-stats" class="col-lg-6 col-md-8 col-sm-8 my-3">
+				{% if messages %}
+					{% for message in messages %}
+				      <div id="edit-alert" class="alert {{ message.tags }} fade show" role="alert">{{ message }}</div>
+					{% endfor %}
+				{% endif %}
+
+				<!-- username, edit profile, follow/unfollow -->
+				<div class="stats-top">
+					<h1>{{ user.username }}</h1>
+					{% if request.user == user %}
+						<img class="setting d-inline-block ml-3" src="{% static 'heart4u/imgs/edit.png' %}" title="Edit Profile" data-toggle="modal" data-target="#edit-profile-modal">
+					{% else %}
+						{% if request.user.profile in followers %}
+							<form action="{% url 'unfollow' %}" method="POST">
+								{% csrf_token %}
+								<input name="user_id" type="hidden" value="{{ user.id }}">
+								<button class="btn btn-outline-danger btn-sm ml-3" type="submit">Unfollow</button>
+							</form>
+						{% else %}
+							<form action="{% url 'follow' %}" method="POST">
+								{% csrf_token %}
+								<input name="user_id" type="hidden" value="{{ user.id }}">
+								<button class="btn btn-outline-success btn-sm ml-3" type="submit">Follow</button>
+							</form>
+						{% endif %}
+					{% endif %}
+	            </div>
+
+				<!-- posts, followers, following -->
+				<div class="row no-gutters">
+					<div class="col-3">
+						<p><b>{{ posts.count }}</b> posts</p>
+					</div>
+					<div class="col-3">
+						{% if followers %}
+							<span class="followers" title="View Followers" data-toggle="modal" data-target="#view-followers-modal">
+								<p><b>{{ followers.count }}</b> followers</p>
+							</span>
+						{% else %}
+							<p><b>{{ followers.count }}</b> followers</p>
+						{% endif %}
+					</div>
+					<div class="col-3">
+						{% if following %}
+							<span class="following" title="View Following" data-toggle="modal" data-target="#view-following-modal">
+								<p><b>{{ following.count }}</b> following</p>
+							</span>
+						{% else %}
+							<p><b>{{ following.count }}</b> following</p>
+						{% endif %}
+					</div>
+				</div>
+
+				<!-- first/last name, bio -->
+				<p><b>{{ user.first_name }} {{ user.last_name }}</b></p>
+				<p>{{ user.profile.bio }}</p>
+			</div>
+		</div>
+
+		<hr>
+
+		<!-- user posts -->
+		<div id="user-posts" class="row justify-content-center">
+			{% if posts %}
+				<ul class="d-flex flex-wrap">
+					{% for post in posts %}
+						<li>
+	                        <a href="{% url 'post' user.username post.id %}" title="View Post">
+	                            <img src="{{ post.pic.url }}" style="width:250px;">
+	                        </a>
+						</li>
+					{% endfor %}
+				</ul>
+			{% else %}
+				<small>No posts yet</small>
+			{% endif %}
+		</div>
+	</div>
+
+
+	<!-- edit profile form -->
+	<div class="modal fade" id="edit-profile-modal" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-md">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h2 class="modal-title">Edit Profile</h2>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+
+				<div class="modal-body">
+					<form id="edit-profile-form" action="{% url 'edit_profile' %}" method="POST" enctype="multipart/form-data">
+						{% csrf_token %}
+						<div class="form-group">{{ profile_pic_form.as_p }}</div>
+				        <div class="form-group">
+				        	<label for="first_name">Username</label>
+				            <input class="form-control" id="edit-username" name="username" type="text" data-value="{{ user.username }}" required>
+				        </div>
+						<div class="form-row mb-3">
+							<div class="col">
+								<label for="first_name">First Name</label>
+								<input class="form-control" id="edit-firstname" name="first_name" type="text" data-value="{{ user.first_name }}" required>
+							</div>
+							<div class="col">
+								<label for="last_name">Last Name</label>
+								<input class="form-control" id="edit-lastname" name="last_name" type="text" data-value="{{ user.last_name }}" required>
+						    </div>
+						</div>
+				        <div class="form-group">
+				        	<label for="bio">Bio</label>
+				            <textarea class="form-control" form="edit-profile-form" id="edit-bio" name="bio" data-value="{{ user.profile.bio }}"></textarea>
+				        </div>
+						<div class="text-center">
+							<button class="btn btn-outline-dark" type="submit">Save changes</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- view followers modal -->
+	<div class="modal fade" id="view-followers-modal" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-md">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h2 class="modal-title">Followers</h2>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+
+				<div class="modal-body users-list">
+					{% for user in followers %}
+						<div class="row align-items-center">
+							<div class="user-pic mx-3">
+								<div class="user-pic-square">
+									<img src="{{ user.profile_pic.url }}">
+								</div>
+							</div>
+							<a href="{% url 'profile' user.user.username %}">{{ user.user.username }}</a>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- view following modal -->
+	<div class="modal fade" id="view-following-modal" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-md">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h2 class="modal-title">Following</h2>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+
+				<div class="modal-body users-list">
+					{% for user in following %}
+						<div class="row align-items-center">
+							<div class="user-pic mx-3">
+								<div class="user-pic-square">
+									<img src="{{ user.profile_pic.url }}">
+								</div>
+							</div>
+							<a href="{% url 'profile' user.user.username %}">{{ user.user.username }}</a>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block script %}
+	<script src="{% static 'heart4u/profile.js' %}"></script>
+{% endblock %}

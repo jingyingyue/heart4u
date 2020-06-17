@@ -1,0 +1,70 @@
+{% extends "heart4u/base.html" %}
+{% load static %}
+
+{% block title %}{{ post.user.username }}'s Post | Heart4U{% endblock %}
+
+{% block body %}
+	<div class="container my-4">
+		<div class="row">
+			<div class="col-lg-4 col-md-12 my-3">
+				<!-- post image -->
+				<img src="{{ post.pic.url }}" style="width:350px;">
+				<div class="text-center">
+					<!-- like/unlike form -->
+					<form id="like-unlike-form" action="{% url 'like_unlike' %}" method="POST">
+						{% csrf_token %}
+						<input type="hidden" name="post_id" value="{{ post.id }}">
+						{% if already_liked %}
+							<input id="state" type="hidden" name="state" value="unlike">
+							<button id="heart" class="btn mt-2 pb-0" type="submit" title="Unlike">
+								<i class="fa fa-heart"></i>
+							</button>
+						{% else %}
+							<input id="state" type="hidden" name="state" value="like">
+							<button id="heart" class="btn mt-2 pb-0" type="submit" title="Like">
+								<i class="fa fa-heart-o"></i>
+							</button>
+						{% endif %}
+					</form>
+					<span>({{ likes.count }})</span>
+				</div>
+			</div>
+
+			<div class="col-lg-8 col-md-12 my-3">
+				<div id="post-comments" class="card border-dark h-100 bg-transparent">
+					<!-- post user and caption -->
+					<div class="card-header">
+						<a class="post-user" href="{% url 'profile' post.user.username %}">{{ post.user.username }}</a>
+						<small class="post-date text-muted">{{ post.date }}</small>
+						<div style="clear:both;"></div>
+						<div>{{ post.caption }}</div>
+					</div>
+
+					<div class="card-body">
+						<!-- comments -->
+						<div id="comments-view">
+							{% for comment in comments %}
+								<a class="comment-user" href="{% url 'profile' comment.user.username %}">{{ comment.user.username }}</a>
+								<small class="comment-date text-muted">{{ comment.date }}</small>
+								<div style="clear:both;"></div>
+								<p>{{ comment.text }}</p>
+							{% endfor %}
+						</div>
+
+						<!-- comment form  -->
+						<div id="comments-send">
+							<form id="comment-form" action="{% url 'comment' %}" method="POST">
+								{% csrf_token %}
+								<input type="hidden" name="post_id" value="{{ post.id }}">
+								<textarea class="form-control" form="comment-form" name="comment" placeholder="Comment"></textarea>
+								<div class="text-right">
+									<input class="comment mt-2" type="image" src="{% static 'heart4u/imgs/comment.png' %}" title="Send">
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

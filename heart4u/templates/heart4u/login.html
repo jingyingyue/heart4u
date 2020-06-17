@@ -1,0 +1,33 @@
+{% extends "heart4u/base.html" %}
+{% load static %}
+
+{% block title %}Login | Heart4U{% endblock %}
+
+{% block content %}
+	<div class="login-container">
+		<div id="login-card" class="card text-center">
+			<div class="card-header">
+				<img src="{% static 'heart4u/imgs/brand.png' %}"><h1>Heart4U</h1>
+			</div>
+			<div class="card-body">
+				{% if messages %}
+					{% for message in messages %}
+						<div class="alert {{ message.tags }}" role="alert">{{ message }}</div>
+					{% endfor %}
+				{% endif %}
+				
+			    <form action="{% url 'login' %}" method="POST">
+			    	{% csrf_token %}
+			        <div class="form-group">
+			            <input class="form-control" name="username" placeholder="Username" type="text" required>
+			        </div>
+			        <div class="form-group">
+			            <input class="form-control" name="password" placeholder="Password" type="password" required>
+			        </div>
+					<button class="btn btn-outline-dark" type="submit">Login</button>
+				</form>
+			</div>
+			<p>Don't have an account? <a href="{% url 'register' %}" class="card-link">Register</a></p>
+		</div>
+	</div>
+{% endblock %}

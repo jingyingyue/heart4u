@@ -1,0 +1,147 @@
+{% extends "heart4u/base.html" %}
+{% load static %}
+
+{% block title %}Upload | Heart4U{% endblock %}
+
+{% block body %}
+	<div class="container my-4">
+		<div class="row">
+			<div class="col text-center">
+				<!-- preview photo -->
+				<div class="preview-wrapper">
+				    <canvas id="canvas" width="380" height="380"></canvas>
+				    <p class="process-message"></p>
+				</div>
+		 
+				<!-- choose photo button -->
+				<div class="upload-button">
+				    <input type="file" id="upload-file" placeholder="Choose Photo">
+				    <label for="upload-file">Choose Photo</label>
+				</div>
+			</div>
+
+			<div class="col text-center">
+				<!-- filter buttons -->
+				<div class="table-responsive">
+					<table id="filters-table" class="table table-borderless">
+						<tr>
+							<td colspan="4"><h2>Filters</h2></td>
+						</tr>
+						<tr>
+							<td>
+								<div class="btn-group btn-group-sm">
+									<button id="brightness-dec" class="btn btn-dark">-</button>
+									<button class="btn btn-outline-dark" style="color:black;" disabled>Brightness</button>
+									<button id="brightness-inc" class="btn btn-dark">+</button>
+								</div>
+							</td>
+							<td>
+								<div class="btn-group btn-group-sm">
+									<button id="contrast-dec" class="btn btn-dark">-</button>
+									<button class="btn btn-outline-dark" style="color:black;" disabled>Contrast</button>
+									<button id="contrast-inc" class="btn btn-dark">+</button>
+								</div>
+							</td>
+							<td>
+								<div class="btn-group btn-group-sm">
+									<button id="saturation-dec" class="btn btn-dark">-</button>
+									<button class="btn btn-outline-dark" style="color:black;" disabled>Saturation</button>
+									<button id="saturation-inc" class="btn btn-dark">+</button>
+								</div>
+							</td>
+							<td>
+								<div class="btn-group btn-group-sm">
+									<button id="vibrance-dec" class="btn btn-dark">-</button>
+									<button class="btn btn-outline-dark" style="color:black;" disabled>Vibrance</button>
+									<button id="vibrance-inc" class="btn btn-dark">+</button>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="btn-group btn-group-sm">
+									<button id="exposure-dec" class="btn btn-dark">-</button>
+									<button class="btn btn-outline-dark" style="color:black;" disabled>Exposure</button>
+									<button id="exposure-inc" class="btn btn-dark">+</button>
+								</div>
+							</td>
+							<td>
+								<div class="btn-group btn-group-sm">
+									<button id="noise-dec" class="btn btn-dark" disabled>-</button>
+									<button class="btn btn-outline-dark" style="color:black;" disabled>Noise</button>
+									<button id="noise-inc" class="btn btn-dark">+</button>
+								</div>
+							</td>
+							<td>
+								<div class="btn-group btn-group-sm">
+									<button id="sharpen-dec" class="btn btn-dark" disabled>-</button>
+									<button class="btn btn-outline-dark" style="color:black;" disabled>Sharpen</button>
+									<button id="sharpen-inc" class="btn btn-dark">+</button>
+								</div>
+							</td>
+							<td>
+								<div class="btn-group btn-group-sm">
+									<button id="sepia-dec" class="btn btn-dark" disabled>-</button>
+									<button class="btn btn-outline-dark" style="color:black;" disabled>Sepia</button>
+									<button id="sepia-inc" class="btn btn-dark">+</button>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="btn-group btn-group-sm">
+									<button id="hue-dec" class="btn btn-dark" disabled>-</button>
+									<button class="btn btn-outline-dark" style="color:black;" disabled>Hue</button>
+									<button id="hue-inc" class="btn btn-dark">+</button>
+								</div>
+							</td>
+							<td>
+								<div class="btn-group btn-group-sm">
+									<button id="blur-dec" class="btn btn-dark" disabled>-</button>
+									<button class="btn btn-outline-dark" style="color:black;" disabled>Blur</button>
+									<button id="blur-inc" class="btn btn-dark">+</button>
+								</div>
+							</td>
+							<td>
+								<div class="btn-group btn-group-sm">
+									<button id="gamma-dec" class="btn btn-dark" disabled>-</button>
+									<button class="btn btn-outline-dark" style="color:black;" disabled>Gamma</button>
+									<button id="gamma-inc" class="btn btn-dark">+</button>
+								</div>
+							</td>
+							<td>
+								<div class="btn-group btn-group-sm">
+									<button id="clip-dec" class="btn btn-dark" disabled>-</button>
+									<button class="btn btn-outline-dark" style="color:black;" disabled>Clip</button>
+									<button id="clip-inc" class="btn btn-dark">+</button>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="4">
+								<button id="revert-btn" class="btn btn-sm btn-outline-danger mt-1">Remove Filters</button>
+							</td>
+						</tr>
+					</table>
+				</div>
+				
+				<!-- upload photo form -->
+				<form id="upload-form" action="{% url 'upload' %}" method="POST">
+					{% csrf_token %}
+					<input id="uploaded-pic" type="hidden" name="pic">
+			        <div class="form-group">
+			        	<label for="caption"><h2>Caption</h2></label>
+			            <textarea class="form-control" form="upload-form" name="caption"></textarea>
+			        </div>
+					<div class="text-center">
+						<button id="share-btn" class="btn btn-outline-dark" type="submit">Share</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block script %}
+	<script src="{% static 'heart4u/upload.js' %}"></script>
+{% endblock %}

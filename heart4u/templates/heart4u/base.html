@@ -1,0 +1,68 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% block title %}{% endblock %}</title>
+
+		<!-- meta tags -->
+		<meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- CSS  -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pathway+Gothic+One&family=Roboto&display=swap">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="{% static 'heart4u/style.css' %}">
+    </head>
+
+    <body>      
+        {% if user.is_authenticated %}
+            <!-- navigation bar -->
+            <nav class="navbar navbar-expand-lg sticky-top navbar-light py-0">
+                <a class="navbar-brand py-0" href="{% url 'index' %}">
+                    <img src="{% static 'heart4u/imgs/brand.png' %}" width="30" height="30" class="d-inline-block align-center">
+                Heart4U
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <form id="search-form" class="form-inline ml-auto" action="{% url 'search' %}" method="POST">
+                        {% csrf_token %}
+                        <input class="form-control mr-sm-2" type="search" name="search" placeholder="Search">
+                        <input type="image" class="search my-2 my-lg-0" src="{% static 'heart4u/imgs/search.png' %}" title="Search">
+                    </form>
+                    <div class="ml-auto mr-0">
+                        <a class="nav-link d-inline-block" href="{% url 'index' %}" title="Home">
+                            <img class="home" src="{% static 'heart4u/imgs/home.png' %}">
+                        </a>
+                        <a class="nav-link d-inline-block" href="{% url 'upload' %}" title="Upload">
+                            <img class="upload" src="{% static 'heart4u/imgs/upload.png' %}">
+                        </a>
+                        <a class="nav-link d-inline-block" href="{% url 'profile' %}" title="Profile">
+                            <img class="profile" src="{% static 'heart4u/imgs/profile.png' %}">
+                        </a>
+                        <a class="nav-link d-inline-block" href="{% url 'logout' %}" title="Logout">
+                            <img class="logout" src="{% static 'heart4u/imgs/logout.png' %}">
+                        </a>
+                    </div>
+                </div>
+            </nav>
+
+            {% block body %}
+            {% endblock %}
+        {% endif %}
+
+        {% block content %}
+        {% endblock %}
+
+		<!-- scripts -->
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/camanjs/4.1.2/caman.full.min.js"></script>
+        {% block script %}
+        {% endblock %}
+    </body>
+</html>

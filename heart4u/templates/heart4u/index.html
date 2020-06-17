@@ -1,0 +1,34 @@
+{% extends "heart4u/base.html" %}
+{% load static %}
+
+{% block title %}Home | Heart4U{% endblock %}
+
+{% block body %}
+	<div class="container my-4">
+		{% if posts %}
+			{% for post in posts %}
+				<div class="home-post row justify-content-center">
+					<div class="card border-dark bg-transparent w-75">
+						<!-- post image -->
+						<a href="{% url 'post' post.user.username post.id %}" title="View Post">
+							<img class="card-img-top mt-3 ml-3" src="{{ post.pic.url }}" style="width:250px;">
+                        </a>
+
+						<!-- post user and caption -->
+						<div class="card-body">
+							<a class="post-user" href="{% url 'profile' post.user.username %}">{{ post.user.username }}:</a>
+							<div>{{ post.caption }}</div>
+						</div>
+
+						<!-- post date -->
+						<div class="card-footer text-muted text-right"><small>{{ post.date }}</small></div>
+					</div>
+				</div>
+			{% endfor %}
+		{% else %}
+			<div class="text-center">
+				<small>No posts to show</small>
+			</div>
+		{% endif %}
+	</div>
+{% endblock %}

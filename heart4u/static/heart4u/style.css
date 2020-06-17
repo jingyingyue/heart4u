@@ -1,0 +1,345 @@
+/* general */
+* {
+	font-family: 'Roboto', sans-serif;
+}
+
+body {
+	background-image: url('imgs/background.jpg');
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+}
+
+.container {
+	background-color: rgba(255, 255, 255, 0.9);
+	border-radius: 5px;
+}
+
+
+/* navigation bar */
+.navbar {
+	background-color: rgba(255, 255, 255, 0.9);
+}
+
+.navbar-brand {
+	font-family: 'Pathway Gothic One', sans-serif;
+	font-size: 40px;
+}
+
+.navbar-brand img {
+	width: 40px;
+	height: auto;
+}
+
+.nav-link .home, .profile, .search {
+	width: 20px;
+	height: auto;
+}
+
+.nav-link .upload {
+	width: 23px;
+	height: auto;
+}
+
+.nav-link .logout {
+	width: 18px;
+	height: auto;
+}
+
+#search-form input::placeholder {
+	font-size: 14px;
+}
+
+
+/* login/register */
+.login-container, .register-container {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+#login-card, #register-card {
+	width: 400px;
+	background-color: rgba(255, 255, 255, 0.9);
+}
+
+#login-card .card-header,
+#register-card .card-header {
+	display: flex;
+	align-items:center;
+	justify-content: center;
+}
+
+#login-card img,
+#register-card img {
+	width: 50px;
+	height: auto;
+}
+
+#login-card h1,
+#register-card h1 {
+	font-family: 'Pathway Gothic One', sans-serif;
+	font-size: 50px;
+}
+
+#login-card .alert,
+#register-card .alert {
+	display: inline-block;
+	height: 40px;
+	line-height: 40px;
+	padding: 0px 15px;
+}
+
+
+/* home page */
+.home-post .card {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.home-post .post-user {
+	font-size: 14px;
+	font-weight: bold;
+	color: black;
+}
+
+
+/* profile pic */
+.profile-pic-square img {
+	width: 150px;
+	border-radius: 50%;
+}
+
+.profile-pic-landscape {
+	display: inline-block;
+	position: relative;
+	width: 150px;
+	height: 150px;
+	overflow: hidden;
+	border-radius: 50%;
+}
+
+.profile-pic-landscape img {
+	width: auto;
+	height: 100%;
+	margin-left: -50px;
+}
+
+.profile-pic-portrait {
+	position: relative;
+	width: 150px;
+	height: 150px;
+	overflow: hidden;
+	border-radius: 50%;
+}
+
+.profile-pic-portrait img {
+	width: 100%;
+	height: auto;
+}
+
+
+/* profile details */
+#user-stats {
+	max-width: 100%;
+}
+
+#user-stats h1 {
+	font-family: 'Pathway Gothic One', sans-serif;
+	display: inline-block;
+}
+
+#user-stats .stats-top {
+	display: flex;
+	align-items: center;
+}
+
+#user-stats .setting {
+	width: 20px;
+	height: auto;
+}
+
+#user-stats .setting:hover, .followers:hover, .following:hover {
+	cursor: pointer;
+}
+
+#edit-profile-modal .modal-title,
+#view-followers-modal .modal-title,
+#view-following-modal .modal-title {
+	font-family: 'Pathway Gothic One', sans-serif;
+}
+
+#user-stats .alert {
+	display: inline-block;
+	height: 40px;
+	line-height: 40px;
+	padding: 0px 15px;
+}
+
+
+/* profile posts */
+#user-posts ul {
+	max-width: 900px;
+}
+
+#user-posts ul li {
+	list-style: none;
+	flex: 0 0 33.333333%;
+	margin-bottom: 30px;
+}
+
+
+/* followers/following list */
+.user-pic-square img {
+	width: 50px;
+	border-radius: 50%;
+}
+
+.user-pic-landscape {
+	display: inline-block;
+	position: relative;
+	width: 50px;
+	height: 50px;
+	overflow: hidden;
+	border-radius: 50%;
+}
+
+.user-pic-landscape img {
+	width: auto;
+	height: 100%;
+	margin-left: -50px;
+}
+
+.user-pic-portrait {
+	position: relative;
+	width: 50px;
+	height: 50px;
+	overflow: hidden;
+	border-radius: 50%;
+}
+
+.user-pic-portrait img {
+	width: 100%;
+	height: auto;
+}
+
+.users-list .row:not(:last-child) {
+	margin-bottom: 20px;
+}
+
+.users-list a:link {
+	color: black;
+}
+
+
+/* search results */
+.search-users h1, .search-posts h1 {
+	font-family: 'Pathway Gothic One', sans-serif;
+}
+
+.search-posts ul {
+	max-width: 900px;
+}
+
+.search-posts ul li {
+	list-style: none;
+	flex: 0 0 33.333333%;
+	margin-bottom: 30px;
+}
+
+
+/* upload post */
+canvas {
+	margin-top: 20px;
+	max-width: 100%;
+	border: 1px solid #292b2c;
+}
+
+[type="file"] {
+	display: none;
+}
+
+[type="file"] + label {
+	border: 1px solid #292b2c;
+	cursor: pointer;
+	padding: 6px 8px;
+	border-radius: 5px;
+	display: inline-block;
+}
+
+[type="file"] + label:hover {
+	background: #292b2c;
+	color: white;
+}
+
+.btn:disabled {
+	border: 0 none;
+}
+
+#filters-table {
+	margin-bottom: 0;
+}
+
+#filters-table h2 {
+	font-family: 'Pathway Gothic One', sans-serif;
+	margin-bottom: 0;
+}
+
+#upload-form h2 {
+	font-family: 'Pathway Gothic One', sans-serif;
+}
+
+
+/* post */
+#post-comments .card-header {
+	border-bottom: 1px solid #292b2c;
+}
+
+#post-comments .card-body {
+	background-color: transparent;
+	display: grid;
+	grid-template-rows: auto 80px;
+	grid-template-areas:
+	"view"
+	"send";
+}
+
+#post-comments .post-user,
+#comments-view .comment-user {
+	float: left;
+	font-size: 14px;
+	font-weight: bold;
+	color: black;
+}
+
+#post-comments .post-date,
+#comments-view .comment-date {
+	float: right;
+}
+
+#comments-view {
+	grid-area: view;
+	margin-bottom: 20px;
+	max-height: 230px;
+	overflow-y: auto;
+}
+
+#comments-send {
+    grid-area: send;
+}
+
+.fa-heart-o, .fa-heart {
+	color: red;
+	cursor: pointer;
+}
+
+#comment-form textarea::placeholder {
+	font-size: 14px;
+}
+
+#comment-form .comment {
+	width: 20px;
+	height: auto;
+}
